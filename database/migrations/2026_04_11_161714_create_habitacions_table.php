@@ -20,7 +20,7 @@ return new class extends Migration
                 'disponible',
                 'ocupada',
                 'limpieza',
-                'mantenimiento'
+                'mantenimiento' 
             ])->default('disponible');
 
             $table->text('observaciones')->nullable();

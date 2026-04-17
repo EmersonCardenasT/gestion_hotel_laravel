@@ -4,8 +4,10 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\HabitacionController;
 use App\Http\Controllers\PagosController;
-use App\Http\Controllers\ReservasController;
 use App\Http\Controllers\TipoHabitacionController;
+use App\Http\Controllers\ReservasController;
+
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,10 +25,14 @@ Route::middleware([
 
     Route::resource('empleados', EmpleadoController::class);
 
-    Route::resource('habitaciones', HabitacionController::class);
+
     Route::resource('tipos-habitacion', TipoHabitacionController::class);
-    Route::resource('clientes', ClienteController::class);
+    Route::resource('habitaciones', HabitacionController::class);
     Route::resource('reservas', ReservasController::class);
+
+    Route::resource('clientes', ClienteController::class);
+
     Route::resource('pagos', PagosController::class);
+    
 
 });

@@ -10,7 +10,7 @@
             <div class="bg-white text-gray-900 overflow-hidden shadow-xl sm:rounded-lg p-6">
 
                 
-                
+                LISTA DE RESERVAS
 
             </div>
         </div>

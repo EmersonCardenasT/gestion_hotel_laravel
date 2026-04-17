@@ -12,13 +12,13 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-nav-link wire:navigate.hover href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('empleados.index') }}" :active="request()->routeIs('empleados.*')">
+                    <x-nav-link wire:navigate.hover href="{{ route('empleados.index') }}" :active="request()->routeIs('empleados.*')">
                         {{ __('Empleados') }}
                     </x-nav-link>
                 </div>
@@ -41,29 +41,40 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link href="{{ route('habitaciones.index') }}" :active="request()->routeIs('habitaciones.*')">
-                                {{ __('Habitaciones') }}
+                            <x-dropdown-link 
+                                href="{{ route('habitaciones.index') }}"
+                                wire:navigate.hover
+                                :active="request()->routeIs('habitaciones')">
+                                Habitaciones
+                            </x-dropdown-link>
+                            
+                            <x-dropdown-link 
+                                href="{{ route('tipos-habitacion.index') }}"
+                                wire:navigate.hover
+                                :active="request()->routeIs('tipos-habitacion')">
+                                Tipos de Habitaciones
+                            </x-dropdown-link>
+                            
+                            <x-dropdown-link 
+                                href="{{ route('reservas.index') }}"
+                                wire:navigate.hover
+                                :active="request()->routeIs('reservas')">
+                                Reservas
                             </x-dropdown-link>
 
-                            <x-dropdown-link href="{{ route('tipos-habitacion.index') }}" :active="request()->routeIs('tipos-habitacion.*')">
-                                {{ __('Tipo de Habitaciones') }}
-                            </x-dropdown-link>
-
-                            <x-dropdown-link href="{{ route('reservas.index') }}" :active="request()->routeIs('reservas.*')">
-                                {{ __('Reservas') }}
-                            </x-dropdown-link>
+                            
                         </x-slot>
                     </x-dropdown>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('clientes.index') }}" :active="request()->routeIs('clientes.*')">
+                    <x-nav-link wire:navigate.hover href="{{ route('clientes.index') }}" :active="request()->routeIs('clientes.*')">
                         {{ __('Clientes / Huespedes') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('pagos.index') }}" :active="request()->routeIs('pagos.*')">
+                    <x-nav-link wire:navigate.hover href="{{ route('pagos.index') }}" :active="request()->routeIs('pagos.*')">
                         {{ __('Pagos') }}
                     </x-nav-link>
                 </div>

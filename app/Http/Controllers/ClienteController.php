@@ -12,7 +12,8 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        return view ('pages.clientes.list');
+        $clientes = Cliente::latest()->paginate(15);
+        return view ('pages.clientes.list', compact('clientes'));
     }
 
     /**
@@ -20,7 +21,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.clientes.create');
     }
 
     /**
@@ -43,8 +44,8 @@ class ClienteController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Cliente $cliente)
-    {
-        //
+    { 
+        return view('pages.clientes.edit', compact('cliente'));
     }
 
     /**
@@ -60,6 +61,10 @@ class ClienteController extends Controller
      */
     public function destroy(Cliente $cliente)
     {
-        //
+        $cliente->delete();
+
+        return redirect()
+            ->route('clientes.index')
+            ->with('success', 'Cliente eliminado');
     }
 }

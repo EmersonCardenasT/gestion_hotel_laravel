@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TipoHabitacion;
 
 class Habitacion extends Model
 {
@@ -16,16 +17,14 @@ class Habitacion extends Model
     protected $fillable = [
         'numero',
         'id_tipo',
+        'precio_base',
         'piso',
         'estado',
         'observaciones'
     ];
 
-    public function tipo()
+    public function tipoHabitacion()
     {
-        return $this->belongsTo(
-            TipoHabitacion::class,
-            'id_tipo'
-        );
+        return $this->belongsTo(TipoHabitacion::class, 'id_tipo', 'id_tipo');
     }
 }
