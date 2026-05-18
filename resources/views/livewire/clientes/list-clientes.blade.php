@@ -1,7 +1,4 @@
 <div>
-
-    
-
                 {{-- BUSCADOR --}}
                 <div class="mb-6">
                     <div class="relative max-w-sm">
@@ -59,7 +56,14 @@
                                         onclick="confirmarEliminacion({{ $cliente->id_cliente }})"
                                         class="text-red-500"
                                     >
-                                    Eliminar
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7"/>
+                                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                d="M10 11v6M14 11v6"/>
+                                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 7V4h6v3M4 7h16"/>
+                                        </svg>
                                     </button>
                                 </td>
                             </tr>

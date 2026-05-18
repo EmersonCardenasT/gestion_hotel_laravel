@@ -2,6 +2,8 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
+
+
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
@@ -13,69 +15,89 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link wire:navigate.hover href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        <svg class="inline-block w-4 h-4 me-1 -mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+                        </svg>
+                        {{ __('-Dashboard') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link wire:navigate.hover href="{{ route('empleados.index') }}" :active="request()->routeIs('empleados.*')">
-                        {{ __('Empleados') }}
+                        <svg class="inline-block w-4 h-4 me-1 -mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                        </svg>
+                        {{ __('-Empleados') }}
                     </x-nav-link>
                 </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link wire:navigate.hover href="{{ route('clientes.index') }}" :active="request()->routeIs('clientes.*')">
+                        <svg class="inline-block w-4 h-4 me-1 -mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                        </svg>
+                        {{ __('-Clientes / Huespedes') }}
+                    </x-nav-link>
+                </div>
+
+                <!-- Dropdown Operaciones -->
                 <div class="hidden sm:flex sm:items-center sm:ms-10">
                     <x-dropdown align="left" width="48">
                         <x-slot name="trigger">
                             <span class="inline-flex rounded-md">
                                 <button type="button"
                                     class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                    {{ __('Operaciones') }}
-
-                                    <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M8.25 9l3.75 3.75L15.75 9" />
+                                    <svg class="inline-block w-4 h-4 me-1 -mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+                                    </svg>
+                                    {{ __(' Operaciones') }}
+                                    <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9l3.75 3.75L15.75 9" />
                                     </svg>
                                 </button>
                             </span>
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link 
+                            <x-dropdown-link
                                 href="{{ route('habitaciones.index') }}"
                                 wire:navigate.hover
                                 :active="request()->routeIs('habitaciones')">
+                                🏬
                                 Habitaciones
                             </x-dropdown-link>
-                            
-                            <x-dropdown-link 
+
+                            <x-dropdown-link
                                 href="{{ route('tipos-habitacion.index') }}"
                                 wire:navigate.hover
                                 :active="request()->routeIs('tipos-habitacion')">
-                                Tipos de Habitaciones
+                                🏢
+                                 Tipos de Habitaciones
                             </x-dropdown-link>
-                            
-                            <x-dropdown-link 
+
+                            <x-dropdown-link
                                 href="{{ route('reservas.index') }}"
                                 wire:navigate.hover
                                 :active="request()->routeIs('reservas')">
-                                Reservas
+                                🎫
+                                 Reservas
                             </x-dropdown-link>
 
-                            
+                            <x-dropdown-link
+                                href="{{ route('list-registros-ocupaciones') }}"
+                                wire:navigate.hover
+                                :active="request()->routeIs('list-registros-ocupaciones.*')">
+                                🏪
+                                 Historial Registros Estancias
+                            </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 </div>
-
+  
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link wire:navigate.hover href="{{ route('clientes.index') }}" :active="request()->routeIs('clientes.*')">
-                        {{ __('Clientes / Huespedes') }}
-                    </x-nav-link>
-                </div>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link wire:navigate.hover href="{{ route('pagos.index') }}" :active="request()->routeIs('pagos.*')">
-                        {{ __('Pagos') }}
+                    <x-nav-link wire:navigate.hover href="{{ route('list-recepcion') }}" :active="request()->routeIs('recepcion.*')">
+                        🙋‍♂️
+                        {{ __('Recepcion') }}
                     </x-nav-link>
                 </div>
             </div>

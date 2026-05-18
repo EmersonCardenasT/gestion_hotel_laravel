@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Database\Factories\TipoHabitacionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TipoHabitacion extends Model
 {
-    /** @use HasFactory<\Database\Factories\TipoHabitacionFactory> */
+    /** @use HasFactory<TipoHabitacionFactory> */
     use HasFactory;
 
     protected $table = 'tipos_habitacion';
+
     protected $primaryKey = 'id_tipo';
 
     protected $fillable = [
@@ -19,11 +21,11 @@ class TipoHabitacion extends Model
         'capacidad',
         'precio_base',
         'comodidades',
-        'activo'
+        'activo',
     ];
 
     public function habitaciones()
     {
-        return $this->hasMany(Habitacion::class,'id_tipo');
+        return $this->hasMany(Habitacion::class, 'id_tipo');
     }
 }

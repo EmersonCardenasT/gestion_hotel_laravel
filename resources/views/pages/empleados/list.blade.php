@@ -22,7 +22,7 @@
                             class="pl-10 pr-24 py-2 w-full border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500" />
 
                         <button type="button" onclick="clearSearch()"
-                            class="absolute inset-y-0 right-0 mr-2 inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            class="absolute inset-y-0 right-0 inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                             Limpiar
                         </button>
                     </form>
@@ -88,7 +88,7 @@
                                         {{ $empleado->direccion }}
                                     </td>
                                     <td class="px-6 py-4 space-x-2">
-                                        <a href="{{ route('empleados.edit', $empleado) }}"
+                                        <a href="{{ route('empleados.edit', $empleado->id) }}"
                                             class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1 text-xs font-medium text-gray-900 transition hover:bg-gray-200">
                                             <i class="fa-solid fa-pen text-indigo-600"></i>
                                         </a>

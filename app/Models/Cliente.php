@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Database\Factories\ClienteFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
-    /** @use HasFactory<\Database\Factories\ClienteFactory> */
+    /** @use HasFactory<ClienteFactory> */
     use HasFactory;
 
     protected $primaryKey = 'id_cliente';
@@ -20,12 +21,11 @@ class Cliente extends Model
         'telefono',
         'email',
         'direccion',
-        'pais'
+        'pais',
     ];
 
-    // public function reservas()
-    // {
-    //     return $this->hasMany(Reserva::class,'id_cliente');
-    // }
-
+    public function reservas()
+    {
+        return $this->hasMany(Reservas::class, 'id_cliente', 'id_cliente');
+    }
 }

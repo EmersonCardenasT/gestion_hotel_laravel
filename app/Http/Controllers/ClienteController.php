@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
-use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
@@ -12,8 +11,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::latest()->paginate(15);
-        return view ('pages.clientes.list', compact('clientes'));
+        return view('pages.clientes.list');
     }
 
     /**
@@ -25,46 +23,10 @@ class ClienteController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cliente $cliente)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Cliente $cliente)
-    { 
+    {
         return view('pages.clientes.edit', compact('cliente'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cliente $cliente)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cliente $cliente)
-    {
-        $cliente->delete();
-
-        return redirect()
-            ->route('clientes.index')
-            ->with('success', 'Cliente eliminado');
     }
 }

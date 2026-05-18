@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class EmpleadoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $search = request('search');
@@ -27,17 +24,11 @@ class EmpleadoController extends Controller
         return view('pages.empleados.list', compact('empleados'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('pages.empleados.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -55,13 +46,13 @@ class EmpleadoController extends Controller
         if ($registro) {
             return response()->json([
                 'success' => true,
-                'message' => 'Empleado registrado correctamente'
+                'message' => 'Empleado registrado correctamente',
             ]);
         }
 
         return response()->json([
             'success' => false,
-            'message' => 'Error al registrar'
+            'message' => 'Error al registrar',
         ], 500);
     }
 
@@ -89,8 +80,8 @@ class EmpleadoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'dni' => 'required|string|max:20|unique:empleados,dni,' . $empleado->id,
-            'email' => 'required|email|max:255|unique:empleados,email,' . $empleado->id,
+            'dni' => 'required|string|max:20|unique:empleados,dni,'.$empleado->id,
+            'email' => 'required|email|max:255|unique:empleados,email,'.$empleado->id,
             'telefono' => 'nullable|string|max:20',
             'fecha_ingreso' => 'required|date',
             'direccion' => 'nullable|string|max:255',
@@ -101,13 +92,13 @@ class EmpleadoController extends Controller
         if ($update) {
             return response()->json([
                 'success' => true,
-                'message' => 'Empleado actualizado correctamente'
+                'message' => 'Empleado actualizado correctamente',
             ]);
         }
 
         return response()->json([
             'success' => false,
-            'message' => 'Error al actualizar'
+            'message' => 'Error al actualizar',
         ], 500);
     }
 
@@ -119,13 +110,13 @@ class EmpleadoController extends Controller
         if ($empleado->delete()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Empleado eliminado'
+                'message' => 'Empleado eliminado',
             ]);
         }
 
         return response()->json([
             'success' => false,
-            'message' => 'Error al eliminar'
+            'message' => 'Error al eliminar',
         ], 500);
     }
 }

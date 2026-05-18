@@ -27,6 +27,8 @@
 
     {{-- Filtros --}}
     <div class="flex flex-wrap gap-3 mb-6">
+
+        {{-- Búsqueda --}}
         <div class="relative flex-1 min-w-[200px]">
             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
@@ -34,20 +36,93 @@
             <input
                 type="text"
                 wire:model.live.debounce.300ms="buscar"
-                placeholder="Buscar por número..."
-                class="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 bg-white"
+                placeholder="Buscar por número o piso..."
+                class="w-full pl-9 pr-9 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 bg-white"
             >
+            {{-- Botón limpiar búsqueda --}}
+            @if($buscar)
+                <button
+                    wire:click="$set('buscar', '')"
+                    class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
+                    title="Limpiar búsqueda"
+                >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            @endif
         </div>
-        <select
-            wire:model.live="filtro_estado"
-            class="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 min-w-[170px]"
-        >
-            <option value="">Todos los estados</option>
-            <option value="disponible">Disponible</option>
-            <option value="ocupado">Ocupado</option>
-            <option value="limpieza">Limpieza</option>
-            <option value="mantenimiento">Mantenimiento</option>
-        </select>
+
+        {{-- Filtro estado --}}
+        <div class="relative">
+            <select
+                wire:model.live="filtro_estado"
+                class="text-sm border border-gray-200 rounded-lg pl-3 pr-8 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 min-w-[170px] appearance-none"
+            >
+                <option value="">Todos los estados</option>
+                <option value="disponible">Disponible</option>
+                <option value="ocupado">Ocupado</option>
+                <option value="limpieza">Limpieza</option>
+                <option value="mantenimiento">Mantenimiento</option>
+            </select>
+            <svg class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </div>
+
+        {{-- Filtro piso --}}
+        <div class="relative">
+            <select
+                wire:model.live="filtro_piso"
+                class="text-sm border border-gray-200 rounded-lg pl-3 pr-8 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 min-w-[130px] appearance-none"
+            >
+                <option value="">Todos los pisos</option>
+                @foreach($pisos_disponibles as $p)
+                    <option value="{{ $p }}">Piso {{ $p }}</option>
+                @endforeach
+            </select>
+            <svg class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </div>
+
+        {{-- Filtro tipo --}}
+        <div class="relative">
+            <select
+                wire:model.live="filtro_tipo"
+                class="text-sm border border-gray-200 rounded-lg pl-3 pr-8 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 min-w-[160px] appearance-none"
+            >
+                <option value="">Todos los tipos</option>
+                @foreach($tipos_para_filtro as $t)
+                    <option value="{{ $t->id_tipo }}">{{ $t->nombre }}</option>
+                @endforeach
+            </select>
+            <svg class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </div>
+
+        {{-- Limpiar todos los filtros --}}
+        @if($buscar || $filtro_estado || $filtro_piso || $filtro_tipo)
+            <button
+                wire:click="limpiarFiltros"
+                class="text-sm text-gray-500 hover:text-gray-800 border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50 transition inline-flex items-center gap-1.5"
+            >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Limpiar filtros
+            </button>
+        @endif
+
+    </div>
+
+    {{-- Resumen resultados --}}
+    <div class="mb-4 text-xs text-gray-400">
+        {{ $habitaciones->count() }} habitación{{ $habitaciones->count() !== 1 ? 'es' : '' }} encontrada{{ $habitaciones->count() !== 1 ? 's' : '' }}
+        @if($buscar || $filtro_estado || $filtro_piso || $filtro_tipo)
+            <span class="ml-1 text-indigo-500">(con filtros activos)</span>
+        @endif
     </div>
 
     {{-- Grid de habitaciones --}}
@@ -78,39 +153,61 @@
                 default         => $hab->estado,
             };
             @endphp
-            <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition">
-                <div class="flex justify-between items-start mb-3">
-                    <div>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $hab->numero }}</p>
-                        <p class="text-xs text-gray-400 mt-0.5">Piso {{ $hab->piso }}</p>
+            <div class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-gray-300 transition">
+
+                {{-- Imagen de la habitación --}}
+                @if($hab->imagen)
+                    <div class="h-40 w-full overflow-hidden bg-gray-100">
+                        <img
+                            src="{{ Storage::url($hab->imagen) }}"
+                            alt="Habitación {{ $hab->numero }}"
+                            class="w-full h-full object-cover"
+                        >
                     </div>
-                    <span class="text-xs font-medium px-2.5 py-1 rounded-full {{ $badgeClass }}">
-                        {{ $badgeLabel }}
-                    </span>
-                </div>
-                <div class="border-t border-gray-100 pt-3">
-                    <p class="text-sm text-gray-500 mb-1">{{ $hab->tipoHabitacion->nombre ?? '—' }}</p>
-                    <p class="text-lg font-semibold text-gray-900 mb-3">
-                        ${{ number_format($hab->precio_base, 2) }}
-                        <span class="text-xs font-normal text-gray-400">/noche</span>
-                    </p>
-                    @if($hab->observaciones)
-                        <p class="text-xs text-gray-400 italic mb-3 line-clamp-1">{{ $hab->observaciones }}</p>
-                    @endif
-                    <div class="flex gap-2">
-                        <button
-                            wire:click="editar({{ $hab->id_habitacion }})"
-                            class="flex-1 text-center text-sm border border-gray-300 rounded-lg py-1.5 hover:bg-gray-50 transition"
-                        >
-                            Editar
-                        </button>
-                        <button
-                            wire:click="eliminar({{ $hab->id_habitacion }})"
-                            wire:confirm="¿Estás seguro de eliminar la habitación {{ $hab->numero }}?"
-                            class="flex-1 text-sm bg-red-50 text-red-700 border border-red-200 rounded-lg py-1.5 hover:bg-red-100 transition"
-                        >
-                            Eliminar
-                        </button>
+                @else
+                    <div class="h-40 w-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                        <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14
+                                   M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                @endif
+
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <p class="text-2xl font-semibold text-gray-900">{{ $hab->numero }}</p>
+                            <p class="text-xs text-gray-400 mt-0.5">Piso {{ $hab->piso }}</p>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full {{ $badgeClass }}">
+                            {{ $badgeLabel }}
+                        </span>
+                    </div>
+                    <div class="border-t border-gray-100 pt-3">
+                        <p class="text-sm text-gray-500 mb-1">{{ $hab->tipoHabitacion->nombre ?? '—' }}</p>
+                        <p class="text-lg font-semibold text-gray-900 mb-3">
+                            ${{ number_format($hab->precio_base, 2) }}
+                            <span class="text-xs font-normal text-gray-400">/noche</span>
+                        </p>
+                        @if($hab->observaciones)
+                            <p class="text-xs text-gray-400 italic mb-3 line-clamp-1">{{ $hab->observaciones }}</p>
+                        @endif
+                        <div class="flex gap-2">
+                            <button
+                                wire:click="editar({{ $hab->id_habitacion }})"
+                                class="flex-1 text-center text-sm border border-gray-300 rounded-lg py-1.5 hover:bg-gray-50 transition"
+                            >
+                                Editar
+                            </button>
+                            <button
+                                wire:click="eliminar({{ $hab->id_habitacion }})"
+                                wire:confirm="¿Estás seguro de eliminar la habitación {{ $hab->numero }}?"
+                                class="flex-1 text-sm bg-red-50 text-red-700 border border-red-200 rounded-lg py-1.5 hover:bg-red-100 transition"
+                            >
+                                Eliminar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -205,6 +302,123 @@
                         class="w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-sm resize-none"></textarea>
                     @error('observaciones') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                 </div>
+
+                {{-- ── Imagen ──────────────────────────────────────────────────────── --}}
+                <div x-data="{ dragging: false }" x-on:dragover.window.prevent x-on:drop.window.prevent>
+                    <x-label value="Imagen de la Habitación" />
+
+                    {{-- Preview imagen actual (modo editar, sin nueva imagen seleccionada) --}}
+                    @if($imagen_actual && !$imagen && !$eliminar_imagen)
+                        <div class="mt-2 mb-3 relative group w-full rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+                            <img
+                                src="{{ Storage::url($imagen_actual) }}"
+                                alt="Imagen actual"
+                                class="w-full h-44 object-cover"
+                            >
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition flex items-center justify-center">
+                                <span class="opacity-0 group-hover:opacity-100 text-white text-xs font-medium bg-black/50 px-2 py-1 rounded transition">
+                                    Imagen actual
+                                </span>
+                            </div>
+                        </div>
+                        {{-- Checkbox para eliminar imagen --}}
+                        <label class="flex items-center gap-2 text-sm text-red-600 cursor-pointer select-none mb-2">
+                            <input type="checkbox" wire:model.live="eliminar_imagen" class="rounded border-gray-300 text-red-500 focus:ring-red-400" />
+                            Eliminar imagen actual
+                        </label>
+                    @endif
+
+                    {{-- Preview nueva imagen seleccionada --}}
+                    @if($imagen)
+                        <div class="mt-2 mb-3 relative w-full rounded-lg overflow-hidden border border-indigo-200 bg-gray-50">
+                            <img
+                                src="{{ $imagen->temporaryUrl() }}"
+                                alt="Nueva imagen"
+                                class="w-full h-44 object-cover"
+                            >
+                            <div class="absolute top-2 right-2">
+                                <button
+                                    type="button"
+                                    wire:click="$set('imagen', null)"
+                                    class="bg-white/90 hover:bg-white text-gray-600 hover:text-red-600 rounded-full p-1 shadow transition"
+                                    title="Quitar imagen"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 bg-indigo-600/80 text-white text-xs text-center py-1">
+                                Nueva imagen — se guardará al confirmar
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- Drop zone (solo si no hay nueva imagen ni imagen_actual sin eliminar) --}}
+                    @if(!$imagen && ($eliminar_imagen || !$imagen_actual))
+                        <label
+                            for="imagen-upload"
+                            class="mt-2 flex flex-col items-center justify-center w-full h-36 border-2 border-dashed rounded-lg cursor-pointer transition"
+                            :class="dragging
+                                ? 'border-indigo-400 bg-indigo-50'
+                                : 'border-gray-300 bg-gray-50 hover:border-indigo-300 hover:bg-indigo-50'"
+                            x-on:dragover.prevent="dragging = true"
+                            x-on:dragleave.prevent="dragging = false"
+                            x-on:drop.prevent="dragging = false"
+                        >
+                            <svg class="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828
+                                       0L20 14M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <p class="text-sm text-gray-500">
+                                <span class="font-medium text-indigo-600">Haz clic para subir</span>
+                                o arrastra aquí
+                            </p>
+                            <p class="text-xs text-gray-400 mt-1">JPG, PNG o WEBP — máx. 2 MB</p>
+                            <input
+                                id="imagen-upload"
+                                type="file"
+                                wire:model="imagen"
+                                accept="image/jpeg,image/png,image/webp"
+                                class="hidden"
+                            >
+                        </label>
+                    @endif
+
+                    {{-- Botón de "cambiar imagen" cuando ya existe una imagen actual --}}
+                    @if($imagen_actual && !$imagen && !$eliminar_imagen)
+                        <label
+                            for="imagen-upload-change"
+                            class="mt-1 inline-flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-800 cursor-pointer"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                            </svg>
+                            Cambiar imagen
+                            <input
+                                id="imagen-upload-change"
+                                type="file"
+                                wire:model="imagen"
+                                accept="image/jpeg,image/png,image/webp"
+                                class="hidden"
+                            >
+                        </label>
+                    @endif
+
+                    {{-- Indicador de carga (Livewire file upload) --}}
+                    <div wire:loading wire:target="imagen" class="mt-2 flex items-center gap-2 text-sm text-indigo-600">
+                        <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                        </svg>
+                        Subiendo imagen...
+                    </div>
+
+                    @error('imagen') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
+                </div>
+                {{-- ── /Imagen ──────────────────────────────────────────────────────── --}}
 
             </div>
         </x-slot>
